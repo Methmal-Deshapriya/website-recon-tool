@@ -1,0 +1,15 @@
+{
+  "sites": [
+    {
+      "name": "example-site",
+      "baseUrl": "https://example.com",
+      "authFile": "auth/example-site-auth.json",
+      "pages": [
+        {
+          "name": "dashboard",
+          "url": "https://example.com/dashboard"
+        }
+      ]
+    }
+  ]
+}
