@@ -27,8 +27,16 @@ async function main() {
     for (const site of config.sites) {
       log(`\n=== Processing site: ${site.name} ===`);
 
+      let authFilePath: string | undefined;
+      if (site.authFile) {
+        authFilePath = resolve(process.cwd(), site.authFile);
+        log(`Auth file configured: ${authFilePath}`);
+      } else {
+        log(`No authentication configured for this site`);
+      }
+
       const context = await createContext(browser, {
-        authFile: site.authFile ? resolve(process.cwd(), site.authFile) : undefined,
+        authFile: authFilePath,
       });
 
       const page = await context.newPage();

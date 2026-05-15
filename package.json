@@ -6,6 +6,7 @@
   "scripts": {
     "auth": "ts-node src/auth/saveAuth.ts",
     "recon": "ts-node src/main.ts",
+    "verify-auth": "ts-node src/utils/verifyAuth.ts",
     "build": "tsc"
   },
   "keywords": [],

@@ -1,13 +1,13 @@
 {
   "sites": [
     {
-      "name": "example-site",
-      "baseUrl": "https://example.com",
-      "authFile": "auth/example-site-auth.json",
+      "name": "foundry academy",
+      "baseUrl": "https://www.foundryacademy.lk/",
+
       "pages": [
         {
-          "name": "dashboard",
-          "url": "https://example.com/dashboard"
+          "name": "home",
+          "url": "https://www.foundryacademy.lk/"
         }
       ]
     }
