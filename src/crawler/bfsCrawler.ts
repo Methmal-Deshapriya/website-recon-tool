@@ -39,9 +39,10 @@ export class BFSCrawler {
       if (this.visited.has(url)) continue;
       this.visited.add(url);
 
-      // Skip if max depth reached
-      if (depth > this.config.maxDepth) {
-        logDebug(`Skipping ${url} - max depth reached`);
+      // Skip if URL path depth exceeds maxDepth
+      const urlPathDepth = getPathDepth(url);
+      if (urlPathDepth > this.config.maxDepth) {
+        logDebug(`Skipping ${url} - URL path depth (${urlPathDepth}) exceeds max (${this.config.maxDepth})`);
         continue;
       }
 

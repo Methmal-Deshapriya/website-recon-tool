@@ -7,7 +7,7 @@
       "autoCrawl": {
         "enabled": true,
         "maxPages": 50,
-        "maxDepth": 10,
+        "maxDepth": 5,
         "excludePatterns": ["/admin", "/logout", "/settings"],
         "delayMs": 500,
         "respectRobotsTxt": true,

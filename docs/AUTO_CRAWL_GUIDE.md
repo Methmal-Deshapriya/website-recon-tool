@@ -119,22 +119,24 @@ Skip specific paths:
 
 ### Max Pages
 
-Limit total pages discovered:
+Limit total pages discovered (this increases as pages are visited):
 ```json
 "maxPages": 20  // Visit at most 20 pages
 ```
 
 ### Max Depth
 
-Limit how deep to follow links:
+Limit URL path depth (number of path segments):
 ```json
-"maxDepth": 2  // Only follow 2 levels of links
+"maxDepth": 3  // Only crawl URLs with 3 or fewer path segments
 ```
 
 Example:
-- Depth 0: `https://mysite.com/`
-- Depth 1: `https://mysite.com/products`, `https://mysite.com/about`
-- Depth 2: `https://mysite.com/products/category`, etc.
+- `https://mysite.com/` → depth 0 ✓
+- `https://mysite.com/products` → depth 1 ✓
+- `https://mysite.com/products/category` → depth 2 ✓
+- `https://mysite.com/products/category/item` → depth 3 ✓
+- `https://mysite.com/products/category/item/details` → depth 4 ✗ (exceeds maxDepth: 3)
 
 ### Rate Limiting
 
