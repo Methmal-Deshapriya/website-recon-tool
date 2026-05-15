@@ -1,13 +1,17 @@
 {
   "sites": [
     {
-      "name": "foundry academy",
-      "baseUrl": "https://www.foundryacademy.lk/",
-
+      "name": "sw-cargo",
+      "baseUrl": "https://preview.portal.swcargo.lk/",
+      "authFile": "auth/sw-cargo-auth.json",
       "pages": [
         {
-          "name": "home",
-          "url": "https://www.foundryacademy.lk/"
+          "name": "employee-dashboard",
+          "url": "https://preview.portal.swcargo.lk/employees"
+        },
+        {
+          "name": "jobs-dashboard",
+          "url": "https://preview.portal.swcargo.lk/jobs/dashboard"
         }
       ]
     }

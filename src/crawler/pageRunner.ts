@@ -38,6 +38,7 @@ export class PageRunner {
 
       log(`[${this.config.siteName}/${this.config.pageName}] Starting recon...`);
 
+      this.networkRecorder.clear();
       this.networkRecorder.attach(page);
       await this.navigateToPage(page);
       await this.captureSnapshots(page);
@@ -55,7 +56,16 @@ export class PageRunner {
     log(`Navigating to: ${this.config.url}`);
     await page.goto(this.config.url, { waitUntil: "domcontentloaded" });
     await waitForStablePage(page);
+
+    const actualUrl = page.url();
     log("Page loaded and stable");
+
+    if (actualUrl !== this.config.url) {
+      log(`⚠️  REDIRECT DETECTED:`);
+      log(`   Requested: ${this.config.url}`);
+      log(`   Actual:    ${actualUrl}`);
+      log(`   This means the server redirected the request.`);
+    }
   }
 
   private async captureSnapshots(page: Page): Promise<void> {
