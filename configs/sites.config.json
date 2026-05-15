@@ -1,19 +1,52 @@
 {
   "sites": [
     {
-      "name": "sw-cargo",
-      "baseUrl": "https://preview.portal.swcargo.lk/",
-      "authFile": "auth/sw-cargo-auth.json",
+      "name": "manual-example",
+      "baseUrl": "https://example.com",
+
       "pages": [
         {
-          "name": "employee-dashboard",
-          "url": "https://preview.portal.swcargo.lk/employees"
+          "name": "home",
+          "url": "https://example.com"
         },
         {
-          "name": "jobs-dashboard",
-          "url": "https://preview.portal.swcargo.lk/jobs/dashboard"
+          "name": "about",
+          "url": "https://example.com/about"
         }
       ]
+    },
+    {
+      "name": "auto-crawl-example",
+      "baseUrl": "https://example-site.com",
+      "authFile": "auth/example-site-auth.json",
+      "autoCrawl": {
+        "enabled": true,
+        "maxPages": 50,
+        "maxDepth": 3,
+        "excludePatterns": ["/admin", "/logout", "/settings"],
+        "delayMs": 500,
+        "respectRobotsTxt": true,
+        "minContentLength": 100,
+        "prioritizeByContent": true
+      }
+    },
+    {
+      "name": "hybrid-example",
+      "baseUrl": "https://app.example.com",
+      "authFile": "auth/app-auth.json",
+      "pages": [
+        {
+          "name": "dashboard",
+          "url": "https://app.example.com/dashboard"
+        }
+      ],
+      "autoCrawl": {
+        "enabled": true,
+        "maxPages": 25,
+        "maxDepth": 2,
+        "excludePatterns": ["/api", "/admin"],
+        "delayMs": 1000
+      }
     }
   ]
 }

@@ -4,6 +4,7 @@ import { createBrowser, createContext } from "./browser/browserFactory";
 import { PageRunner } from "./crawler/pageRunner";
 import { validateConfig } from "./utils/config";
 import { log, logError } from "./utils/logger";
+import { discoverPages } from "./crawler/autoCrawler";
 
 async function loadConfig(path: string) {
   const content = await readFile(path, "utf-8");
@@ -42,7 +43,26 @@ async function main() {
       const page = await context.newPage();
 
       try {
-        for (const pageConfig of site.pages) {
+        // Discover pages (manual or auto)
+        let pagesToVisit = site.pages;
+
+        if (site.autoCrawl && site.autoCrawl.enabled) {
+          const discovery = await discoverPages(
+            site.baseUrl,
+            site.pages,
+            site.autoCrawl,
+            page
+          );
+          pagesToVisit = discovery.pages;
+          log(`\n📋 Using ${discovery.source} discovery: ${pagesToVisit.length} pages to visit`);
+        } else if (!pagesToVisit) {
+          throw new Error(
+            `Site '${site.name}' has no pages configured and auto-crawl is not enabled`
+          );
+        }
+
+        // Run recon on each page
+        for (const pageConfig of pagesToVisit) {
           const runner = new PageRunner({
             siteName: site.name,
             pageName: pageConfig.name,
