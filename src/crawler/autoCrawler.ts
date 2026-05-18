@@ -26,20 +26,30 @@ export async function discoverPages(
     return { source: "manual", pages: manualPages };
   }
 
+  // Start with manual pages if provided
+  const allPages: ConfigPage[] = manualPages ? [...manualPages] : [];
+
   // Try sitemap first
   logDebug("Checking for sitemap...");
   const sitemapUrls = await getSitemapUrls(baseUrl);
 
   if (sitemapUrls.length > 0) {
     log(`\n📋 Using sitemap for page discovery`);
-    const pages = sitemapUrls
-      .slice(0, autoCrawlConfig.maxPages)
-      .map((url, index) => ({
-        name: `page-${index + 1}`,
-        url,
-      }));
+    const discoveredUrls = sitemapUrls.map((url) => url);
 
-    return { source: "sitemap", pages };
+    // Add discovered pages, avoiding duplicates
+    const existingUrls = new Set(allPages.map(p => p.url));
+    for (const url of discoveredUrls) {
+      if (!existingUrls.has(url) && allPages.length < autoCrawlConfig.maxPages) {
+        allPages.push({
+          name: `page-${allPages.length}`,
+          url,
+        });
+      }
+    }
+
+    log(`\n📋 Combined manual (${manualPages?.length || 0}) + sitemap (${allPages.length - (manualPages?.length || 0)}) = ${allPages.length} pages`);
+    return { source: "sitemap", pages: allPages };
   }
 
   // Fall back to BFS
@@ -47,10 +57,17 @@ export async function discoverPages(
   const crawler = new BFSCrawler(baseUrl, autoCrawlConfig);
   const discoveredPages = await crawler.crawl(page);
 
-  const pages = discoveredPages.map((dp) => ({
-    name: dp.name,
-    url: dp.url,
-  }));
+  // Add discovered pages, avoiding duplicates
+  const existingUrls = new Set(allPages.map(p => p.url));
+  for (const dp of discoveredPages) {
+    if (!existingUrls.has(dp.url) && allPages.length < autoCrawlConfig.maxPages) {
+      allPages.push({
+        name: dp.name,
+        url: dp.url,
+      });
+    }
+  }
 
-  return { source: "bfs", pages };
+  log(`\n📋 Combined manual (${manualPages?.length || 0}) + BFS (${allPages.length - (manualPages?.length || 0)}) = ${allPages.length} pages`);
+  return { source: "bfs", pages: allPages };
 }
