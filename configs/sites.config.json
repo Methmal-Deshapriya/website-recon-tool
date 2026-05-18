@@ -1,15 +1,19 @@
 {
   "sites": [
     {
-      "name": "example-site",
-      "baseUrl": "https://example.com",
-      "authFile": "auth/example-site-auth.json",
-      "pages": [
-        {
-          "name": "dashboard",
-          "url": "https://example.com/dashboard"
-        }
-      ]
+      "name": "sw-cargo-auto-crawling",
+      "baseUrl": "https://preview.portal.swcargo.lk",
+      "authFile": "auth/sw-cargo-auth.json",
+      "autoCrawl": {
+        "enabled": true,
+        "maxPages": 50,
+        "maxDepth": 5,
+        "excludePatterns": ["/admin", "/logout", "/settings"],
+        "delayMs": 500,
+        "respectRobotsTxt": true,
+        "minContentLength": 100,
+        "prioritizeByContent": true
+      }
     }
   ]
 }

@@ -1,6 +1,6 @@
 import { chromium, Browser, BrowserContext } from "playwright";
 import { loadAuth } from "../auth/loadAuth";
-import { logDebug } from "../utils/logger";
+import { logDebug, log } from "../utils/logger";
 
 export interface BrowserConfig {
   headless?: boolean;
@@ -29,17 +29,22 @@ export async function createBrowser(config?: BrowserConfig): Promise<Browser> {
 
 export async function createContext(
   browser: Browser,
-  config?: BrowserConfig
+  config?: BrowserConfig,
 ): Promise<BrowserContext> {
   const finalConfig = { ...defaultConfig, ...config };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let storageState: any = undefined;
   if (finalConfig.authFile) {
+    log(`Loading authentication from: ${finalConfig.authFile}`);
     const loadedAuth = await loadAuth(finalConfig.authFile);
     if (loadedAuth) {
       storageState = loadedAuth;
-      logDebug("Using saved authentication state");
+      const cookieCount = loadedAuth.cookies?.length || 0;
+      const originCount = loadedAuth.origins?.length || 0;
+      log(`✓ Authentication loaded: ${cookieCount} cookies, ${originCount} origins`);
+    } else {
+      log(`✗ No authentication loaded (file not found or invalid)`);
     }
   }
 
@@ -49,7 +54,9 @@ export async function createContext(
   });
 
   context.setDefaultTimeout(finalConfig.timeout);
-  logDebug(`Created context with viewport ${finalConfig.viewport.width}x${finalConfig.viewport.height}`);
+  logDebug(
+    `Created context with viewport ${finalConfig.viewport.width}x${finalConfig.viewport.height}`,
+  );
 
   return context;
 }
