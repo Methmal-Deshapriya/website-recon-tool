@@ -1,19 +1,19 @@
 {
   "sites": [
     {
-      "name": "sw-cargo",
-      "baseUrl": "https://preview.portal.swcargo.lk/",
+      "name": "sw-cargo-auto-crawling",
+      "baseUrl": "https://preview.portal.swcargo.lk",
       "authFile": "auth/sw-cargo-auth.json",
-      "pages": [
-        {
-          "name": "employee-dashboard",
-          "url": "https://preview.portal.swcargo.lk/employees"
-        },
-        {
-          "name": "jobs-dashboard",
-          "url": "https://preview.portal.swcargo.lk/jobs/dashboard"
-        }
-      ]
+      "autoCrawl": {
+        "enabled": true,
+        "maxPages": 50,
+        "maxDepth": 5,
+        "excludePatterns": ["/admin", "/logout", "/settings"],
+        "delayMs": 500,
+        "respectRobotsTxt": true,
+        "minContentLength": 100,
+        "prioritizeByContent": true
+      }
     }
   ]
 }
