@@ -4,6 +4,12 @@
       "name": "sw-cargo-auto-crawling",
       "baseUrl": "https://preview.portal.swcargo.lk",
       "authFile": "auth/sw-cargo-auth.json",
+      "pages": [
+        {
+          "name": "invoice-dashboard",
+          "url": "https://preview.portal.swcargo.lk/invoice"
+        }
+      ],
 
       "autoCrawl": {
         "enabled": true,
