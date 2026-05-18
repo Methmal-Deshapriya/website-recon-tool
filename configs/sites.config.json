@@ -4,6 +4,7 @@
       "name": "sw-cargo-auto-crawling",
       "baseUrl": "https://preview.portal.swcargo.lk",
       "authFile": "auth/sw-cargo-auth.json",
+
       "autoCrawl": {
         "enabled": true,
         "maxPages": 50,
