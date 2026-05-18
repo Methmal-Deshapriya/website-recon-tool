@@ -2,7 +2,7 @@
   "sites": [
     {
       "name": "sw-cargo-auto-crawling",
-      "baseUrl": "https://preview.portal.swcargo.lk",
+      "baseUrl": "https://sfa-new.baurs.com/BaursLIVE",
       "authFile": "auth/sw-cargo-auth.json",
 
       "autoCrawl": {
