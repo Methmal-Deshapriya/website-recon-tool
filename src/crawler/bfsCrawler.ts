@@ -1,4 +1,4 @@
-import { Page, Browser, BrowserContext } from "playwright";
+import { Page } from "playwright";
 import { log, logDebug } from "../utils/logger";
 import { AutoCrawlConfig } from "../utils/config";
 import { extractLinksFromPage, filterInternalLinks, getPathDepth } from "./linkExtractor";
@@ -53,7 +53,8 @@ export class BFSCrawler {
       }
 
       try {
-        logDebug(`Crawling: ${url} (depth: ${depth})`);
+        const urlPathDepth = getPathDepth(url);
+        logDebug(`Crawling: ${url} (path depth: ${urlPathDepth})`);
 
         await this.delay(this.config.delayMs);
         await page.goto(url, { waitUntil: "domcontentloaded" });
@@ -79,12 +80,12 @@ export class BFSCrawler {
         this.discovered.set(url, {
           name: pageName,
           url,
-          depth,
+          depth: urlPathDepth,
           contentLength,
         });
 
         logDebug(
-          `✓ Discovered: ${pageName} (${contentLength} chars, depth: ${depth})`
+          `✓ Discovered: ${pageName} (${contentLength} chars, path depth: ${urlPathDepth})`
         );
 
         // Extract links for next level
