@@ -17,10 +17,23 @@ async function main() {
     log(`Loading config from: ${configPath}`);
     const config = await loadConfig(configPath);
 
+    // Check for demo/debug environment variables
+    const demoMode = process.env.DEMO === "true";
+    const slowMoMs = parseInt(process.env.SLOW_MO || "0");
+    const recordVideo = process.env.RECORD_VIDEO === "true";
+    const debugMode = process.env.DEBUG_BROWSER === "true";
+
+    if (demoMode) {
+      log("🎬 DEMO MODE ENABLED - Running in headed mode with visual feedback");
+    }
+
     const browser = await createBrowser({
-      headless: true,
+      headless: !demoMode && process.env.HEADED !== "true",
       viewport: { width: 1440, height: 900 },
       timeout: 60000,
+      slowMo: slowMoMs,
+      recordVideo,
+      debugMode,
     });
 
     const outputPath = resolve(process.cwd(), "output");
