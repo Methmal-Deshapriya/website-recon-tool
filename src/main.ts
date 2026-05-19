@@ -18,7 +18,7 @@ async function main() {
     const config = await loadConfig(configPath);
 
     const browser = await createBrowser({
-      headless: true,
+      headless: false,
       viewport: { width: 1440, height: 900 },
       timeout: 60000,
     });

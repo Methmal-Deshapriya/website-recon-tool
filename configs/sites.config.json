@@ -4,12 +4,14 @@
       "name": "sw-cargo-auto-crawling",
       "baseUrl": "https://preview.portal.swcargo.lk",
       "authFile": "auth/sw-cargo-auth.json",
-      "pages": [
-        {
-          "name": "invoice-dashboard",
-          "url": "https://preview.portal.swcargo.lk/invoice"
-        }
-      ],
+
+      "autoLogin": {
+        "loginUrl": "https://preview.portal.swcargo.lk/login",
+        "usernameSelector": "#email",
+        "passwordSelector": "#password",
+        "submitSelector": "button[type='submit']",
+        "successSelector": "nav, .sidebar, [class*='dashboard'], [class*='layout']"
+      },
 
       "autoCrawl": {
         "enabled": true,

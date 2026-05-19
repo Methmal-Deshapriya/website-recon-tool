@@ -2,7 +2,15 @@ import { z } from "zod";
 
 const PageSchema = z.object({
   name: z.string().min(1, "Page name is required"),
-  url: z.string().url("Invalid URL format"),
+  url: z.url(),
+});
+
+const AutoLoginSchema = z.object({
+  loginUrl: z.url().optional(),
+  usernameSelector: z.string().min(1, "usernameSelector is required"),
+  passwordSelector: z.string().min(1, "passwordSelector is required"),
+  submitSelector: z.string().min(1, "submitSelector is required"),
+  successSelector: z.string().optional(),
 });
 
 const AutoCrawlSchema = z.object({
@@ -20,8 +28,9 @@ const AutoCrawlSchema = z.object({
 const SiteSchema = z
   .object({
     name: z.string().min(1, "Site name is required"),
-    baseUrl: z.string().url("Invalid base URL"),
+    baseUrl: z.url(),
     authFile: z.string().optional(),
+    autoLogin: AutoLoginSchema.optional(),
     pages: z.array(PageSchema).optional(),
     autoCrawl: AutoCrawlSchema.optional(),
   })
@@ -35,6 +44,7 @@ const ConfigSchema = z.object({
 });
 
 export type Page = z.infer<typeof PageSchema>;
+export type AutoLoginConfig = z.infer<typeof AutoLoginSchema>;
 export type AutoCrawlConfig = z.infer<typeof AutoCrawlSchema>;
 export type Site = z.infer<typeof SiteSchema>;
 export type Config = z.infer<typeof ConfigSchema>;
