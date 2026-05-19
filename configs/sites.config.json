@@ -1,26 +1,15 @@
 {
   "sites": [
     {
-      "name": "sw-cargo-auto-crawling",
-      "baseUrl": "https://preview.portal.swcargo.lk",
+      "name": "foundryacademy",
+      "baseUrl": "https://www.foundryacademy.lk/",
       "authFile": "auth/sw-cargo-auth.json",
       "pages": [
         {
-          "name": "invoice-dashboard",
-          "url": "https://preview.portal.swcargo.lk/invoice"
+          "name": "home",
+          "url": "https://www.foundryacademy.lk/"
         }
-      ],
-
-      "autoCrawl": {
-        "enabled": true,
-        "maxPages": 50,
-        "maxDepth": 5,
-        "excludePatterns": ["/admin", "/logout", "/settings"],
-        "delayMs": 500,
-        "respectRobotsTxt": true,
-        "minContentLength": 100,
-        "prioritizeByContent": true
-      }
+      ]
     }
   ]
 }
