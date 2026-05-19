@@ -7,7 +7,7 @@ import { extractButtons } from "../extractors/extractButtons";
 import { extractForms } from "../extractors/extractForms";
 import { extractInputs } from "../extractors/extractInputs";
 import { extractLinks } from "../extractors/extractLinks";
-import { extractTables } from "../extractors/extractTables";
+import { extractTables, convertTableToCSV } from "../extractors/extractTables";
 import { extractMetadata } from "../extractors/extractMetadata";
 
 export interface PageRunnerConfig {
@@ -302,6 +302,13 @@ export class PageRunner {
     const tables = await extractTables(page);
     if (tables.length > 0) {
       await this.writer.writeJSON("tables.json", tables);
+
+      // Export each table as CSV
+      for (let i = 0; i < tables.length; i++) {
+        const csv = convertTableToCSV(tables[i]);
+        const filename = tables.length === 1 ? "table.csv" : `table-${i + 1}.csv`;
+        await this.writer.writeText(filename, csv);
+      }
     }
 
     const metadata = await extractMetadata(page, this.config.url);
